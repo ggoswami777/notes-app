@@ -46,6 +46,22 @@ export const notesReducer=(state,{type,payload})=>{
                 archive:state.archive.filter(({id})=>id!==payload.id),
                 
             }
+        case 'DELETE':
+            const noteToDelete=state.notes.find(({id})=> id ===payload.id);
+            if(!noteToDelete) return state;
+            return{
+                
+                ...state,
+                bin:[...state.bin,state.notes.find(({id})=>id===payload.id)],
+                notes: state.notes.filter(({id})=>id!==payload.id)
+
+            }
+        case 'PERMANENT_DELETE':
+            return{
+                ...state,
+                bin:state.bin.filter(({id})=>id!==payload.id),
+
+            }
         default:
             return state
     }
